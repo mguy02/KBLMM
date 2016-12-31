@@ -155,19 +155,14 @@ print(R2cv, digit=4)
 pred.test.prob <- predict(model, data.frame(test.proj) , type="response")
 
 
-### kable(data, format = "markdown", align='l')
-
-pr <- resid(model)/(1 - lm.influence(model)$hat)
-(PRESS <- sum(pr^2))
 
 
 #Compute the average R2 in the test data.
-test_scale <- data.frame(X.test,Y.test)
+test_scale <- data.frame(test.proj)
 Yhat = predict(model,test_scale)
-RSS = colSums((Y.train-Yhat)^2)
-TSS = apply(Y.train,2,function(x){sum((x-mean(x))^2)})
-r2 = mean(1 - (RSS/TSS))
-r2
+RSS = colSums((Y.test-Yhat)^2)
+TSS = apply(Y.test,2,function(x){sum((x-mean(x))^2)})
+(r2 < mean(1 - (RSS/TSS)))
 
 #5. Assign every test individual to the maximum response and compute the error rate.
 
